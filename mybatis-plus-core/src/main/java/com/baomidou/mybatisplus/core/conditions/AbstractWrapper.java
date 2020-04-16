@@ -44,6 +44,8 @@ import static java.util.stream.Collectors.joining;
  *
  * @author hubin miemie HCL
  * @since 2017-05-26
+ *
+ * T是实体类型、R是字符串类型、Children是子Wrapper
  */
 @SuppressWarnings({"serial", "unchecked"})
 public abstract class AbstractWrapper<T, R, Children extends AbstractWrapper<T, R, Children>> extends Wrapper<T>

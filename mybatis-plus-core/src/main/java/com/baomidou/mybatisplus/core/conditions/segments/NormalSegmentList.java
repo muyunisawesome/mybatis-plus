@@ -86,9 +86,11 @@ public class NormalSegmentList extends AbstractISegmentList {
 
     @Override
     protected String childrenSqlSegment() {
+        //如果最后一个sql片段是 and、or，则需要删掉这个
         if (MatchSegment.AND_OR.match(lastValue)) {
             removeAndFlushLast();
         }
+        //获取每个sql片段的字符串，用,号拼接
         final String str = this.stream().map(ISqlSegment::getSqlSegment).collect(Collectors.joining(SPACE));
         return (LEFT_BRACKET + str + RIGHT_BRACKET);
     }

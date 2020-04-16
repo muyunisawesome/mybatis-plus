@@ -28,7 +28,7 @@ import java.io.Serializable;
 public interface ISqlSegment extends Serializable {
 
     /**
-     * SQL 片段
+     * SQL 片段， 这个函数在mybatis获取对象属性时候获取，对象的sqlSegment属性，或者Map的sqlSegment
      */
     String getSqlSegment();
 }

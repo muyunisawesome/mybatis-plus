@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * SQL 片段集合 处理的抽象类
+ * SQL 片段集合 处理的抽象类,感觉像是策略模式，内部有模板方法模式
  *
  * @author miemie
  * @since 2018-06-27
@@ -40,7 +40,7 @@ public abstract class AbstractISegmentList extends ArrayList<ISqlSegment> implem
      */
     boolean flushLastValue = false;
     /**
-     * 结果集缓存
+     * 结果集缓存, 即sql语句
      */
     private String sqlSegment = EMPTY;
     /**
@@ -57,10 +57,11 @@ public abstract class AbstractISegmentList extends ArrayList<ISqlSegment> implem
     @Override
     public boolean addAll(Collection<? extends ISqlSegment> c) {
         List<ISqlSegment> list = new ArrayList<>(c);
+        //是否继续向下执行
         boolean goon = transformList(list, list.get(0), list.get(list.size() - 1));
         if (goon) {
-            cacheSqlSegment = false;
-            if (flushLastValue) {
+            cacheSqlSegment = false; //如果继续向下执行，需更新lastValue，所以设置为没有缓存
+            if (flushLastValue) { //如果配置了 刷新，则刷新lastValue
                 this.flushLastValue(list);
             }
             return super.addAll(list);
@@ -96,10 +97,10 @@ public abstract class AbstractISegmentList extends ArrayList<ISqlSegment> implem
 
     @Override
     public String getSqlSegment() {
-        if (cacheSqlSegment) {
+        if (cacheSqlSegment) { //如果有缓存过，直接获取
             return sqlSegment;
         }
-        cacheSqlSegment = true;
+        cacheSqlSegment = true; //如果没有缓存过，则这次缓存，并设置新值，返回
         sqlSegment = childrenSqlSegment();
         return sqlSegment;
     }

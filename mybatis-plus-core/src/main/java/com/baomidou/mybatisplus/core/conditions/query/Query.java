@@ -23,6 +23,8 @@ import java.util.function.Predicate;
 /**
  * @author miemie
  * @since 2018-12-12
+ *
+ * Children子查询？？？？？
  */
 public interface Query<Children, T, R> extends Serializable {
 
